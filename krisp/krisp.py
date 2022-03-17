@@ -19,13 +19,9 @@ import struct
 from collections import defaultdict
 from typing import List, Optional, Tuple, Union
 
-from mitmproxy.http import HTTPFlow, HTTPResponse
+from mitmproxy.http import HTTPFlow, Response
 
-try:
-    from xepor import InterceptedAPI  # pyright: reportMissingImports=false
-except ImportError:
-    from .xepor import InterceptedAPI
-
+from xepor import InterceptedAPI
 # reference:
 # https://github.com/mitmproxy/mitmproxy/blob/ed68e0a1ba/examples/contrib/dns_spoofing.py
 
@@ -107,7 +103,7 @@ def fake_analytics(flow: HTTPFlow, _):
         "message": "Success",
         "http_code": 200,
     }
-    flow.response = HTTPResponse.make(
+    flow.response = Response.make(
         content=json.dumps(respdata), headers={"Content-Type": "application/json"},
     )
 
