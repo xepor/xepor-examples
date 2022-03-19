@@ -7,8 +7,10 @@ from mitmproxy.http import HTTPFlow
 from pathlib import Path
 from typing import Dict
 from xepor import InterceptedAPI
-from Cryptodome.Cipher import AES
-
+try:
+    from Cryptodome.Cipher import AES
+except ImportError:
+    pass
 
 # mitmweb analysis filter: ! (~a | ~u "(woff|ttf)$" | ~m "OPTION")
 
