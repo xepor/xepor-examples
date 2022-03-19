@@ -1,4 +1,4 @@
-# Removing Krisp online license check
+# Remove online license check
 
 [Krisp](https://krisp.ai/) is an Windows desktop application written in C#.
 
@@ -8,8 +8,12 @@ This example is a script used together with a slightly modified Krisp client app
 
 In detail, it *patched* some of the JSON fields used for license verification, and leave everything else intact (the authorization, personal settings). I'm just too lazy to reverse engineer everything.
 
-The script was written years ago, it may or may not compatible with later versions of Krisp client and mitmproxy. Create an [Issue](https://github.com/xepor/xepor-examples/issues) if you have any problem or suggestions.
+The script was written years ago, it *may or may not* compatible with later versions of Krisp client and mitmproxy. Create an [Issue](https://github.com/xepor/xepor-examples/issues) if you have any problem or suggestions.
 
 For detailed analysis and steps to reproduce, check my blog post (currently in Chinese only):
 
 [快速搭建Mock API进行应用安全测试——以某音频处理软件为例 - 兔比妙妙屋](https://blog.rabit.pw/2020/mitmproxy-mock-api/)
+
+Demo:
+
+![Krisp Demo](../img/krisp-demo.png)
