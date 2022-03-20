@@ -67,7 +67,7 @@ api = InterceptedAPI(HOST_DRM_VICTIM)
 @api.route(
     "/{REDACTED_CONSTANT}/",
     HOST_DRM_VICTIM,
-    reqtype=RouteType.RESPONSE,
+    rtype=RouteType.RESPONSE,
 )
 def lessons_list(flow: HTTPFlow):
     "Get metadata from original server, optional, but output files hierarchy would be cleaner"
@@ -103,7 +103,7 @@ def lessons_list(flow: HTTPFlow):
     )
 
 
-@api.route("/videojson/{vid}_c.json", HOST_POLYV_INFO, reqtype=RouteType.RESPONSE)
+@api.route("/videojson/{vid}_c.json", HOST_POLYV_INFO, rtype=RouteType.RESPONSE)
 def parse_videojson(flow: HTTPFlow, vid):
     "Step 1, get video information from DRM provider, contain links to the video"
     lesson = ctx.lessons[vid]
@@ -120,7 +120,7 @@ def parse_videojson(flow: HTTPFlow, vid):
     )
 
 
-@api.route("/{}/{}/{vid}_{}.m3u8", HOST_POLYV_LICENSE, reqtype=RouteType.RESPONSE)
+@api.route("/{}/{}/{vid}_{}.m3u8", HOST_POLYV_LICENSE, rtype=RouteType.RESPONSE)
 def lesson_m3u8(flow: HTTPFlow, *_, vid):
     """
     Step 2, get video from DRM provider,
@@ -135,7 +135,7 @@ def lesson_m3u8(flow: HTTPFlow, *_, vid):
 
 
 @api.route(
-    "/playsafe/{}/{}/{vid}_{}.key", HOST_POLYV_LICENSE, reqtype=RouteType.RESPONSE
+    "/playsafe/{}/{}/{vid}_{}.key", HOST_POLYV_LICENSE, rtype=RouteType.RESPONSE
 )
 def lesson_key(flow: HTTPFlow, *_, vid):
     """
