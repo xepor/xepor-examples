@@ -21,7 +21,7 @@ from typing import List, Optional, Tuple, Union
 
 from mitmproxy.http import HTTPFlow, Response
 
-from xepor import InterceptedAPI
+from xepor import InterceptedAPI, RouteType
 # reference:
 # https://github.com/mitmproxy/mitmproxy/blob/ed68e0a1ba/examples/contrib/dns_spoofing.py
 
@@ -63,7 +63,7 @@ api = Krisp(host_mapping=[
 ])
 
 
-@api.route("/v2/user/profile/2/1", HOST_API, InterceptedAPI.RESPONSE)
+@api.route("/v2/user/profile/2/1", HOST_API, RouteType.RESPONSE)
 def fake_profile(flow: HTTPFlow):
     """emulate an "unlimited" license."""
     respdata = json.loads(flow.response.get_content())

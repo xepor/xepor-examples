@@ -1,5 +1,5 @@
 from mitmproxy.http import HTTPFlow
-from xepor import InterceptedAPI
+from xepor import InterceptedAPI, RouteType
 
 
 HOST_HTTPBIN = "httpbin.org"
@@ -17,7 +17,7 @@ def change_your_request(flow: HTTPFlow):
     flow.request.query["payload"] = "evil_param"
 
 
-@api.route("/basic-auth/{usr}/{pwd}", reqtype=InterceptedAPI.RESPONSE)
+@api.route("/basic-auth/{usr}/{pwd}", reqtype=RouteType.RESPONSE)
 def capture_auth(flow: HTTPFlow, usr=None, pwd=None):
     """
     Sniffing password.
