@@ -1,19 +1,10 @@
 """
 Usage:
-    mitmproxy
-        -p 8081
-        -s krisp.py
-        # Used as the target location if neither SNI nor host header are present.
-        --mode reverse:http://localhost/
-        # To avoid auto rewriting of host header by the reverse proxy target.
-        --set keep_host_header
-
-    mitmdump -p 8081 -s krisp.py --mode reverse:http://localhost --set keep_host_header
+    mitmweb --no-web-open-browser --set connection_strategy=lazy -s weixin.py
 """
 
 from dataclasses import dataclass
-import json
-from flask import request
+import urllib.parse
 
 from mitmproxy.http import HTTPFlow, Response, Headers
 
@@ -64,6 +55,17 @@ def cache_headers(flow: HTTPFlow, _=None):
         for h in common_headers:
             if h in headers:
                 del ctx.headers[h]
+        if "&exportkey=" in ctx.url:
+            print(f"New version of sharing URL is detected, origin url:\n{ctx.url}\n")
+        parsed = urllib.parse.urlparse(ctx.url)
+        qs = urllib.parse.parse_qs(parsed.query)
+        # filter with a whitelist of query string parameters to ensure no user identity is leaked through URL
+        ctx.url = urllib.parse.urlunparse(
+            parsed._replace(
+                netloc=flow.request.pretty_host,
+                query=urllib.parse.urlencode([(k, qs[k]) for k in ["__biz", "mid", "idx", "sn", "chksm"]], doseq=True))
+        )
+
         print(
             f"Cache {len(ctx.headers)} HTTP Headers from Weixin Client,\n"
             f"visit the following page in your browser:\n\n"
